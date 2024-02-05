@@ -8,22 +8,22 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 
 @SpringBootApplication
 public class HereIsRestApplication {
 
-	public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException {
 
-		FileInputStream serviceAccount =
-				new FileInputStream("src/main/resources/service/serviceAccountKey.json");
+        InputStream serviceAccountStream = HereIsRestApplication.class.getResourceAsStream("/service/serviceAccountKey.json");
 
-		FirebaseOptions options = new FirebaseOptions.Builder()
-				.setCredentials(GoogleCredentials.fromStream(serviceAccount))
-				.build();
+        FirebaseOptions options = new FirebaseOptions.Builder()
+                .setCredentials(GoogleCredentials.fromStream(serviceAccountStream))
+                .build();
 
-		FirebaseApp.initializeApp(options);
+        FirebaseApp.initializeApp(options);
 
-		SpringApplication.run(HereIsRestApplication.class, args);
-	}
+        SpringApplication.run(HereIsRestApplication.class, args);
+    }
 
 }
