@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.ExecutionException;
 
 @RestController
@@ -22,8 +23,10 @@ public class FoodController {
     }
 
     @PostMapping("/getFilteredFoodModels")
-    public List<FoodModel> getFoodModelsByFilter(@RequestBody FoodFilterBody foodFilterBody) throws ExecutionException, InterruptedException {
-        return foodService.getFilteredFoodModels(foodFilterBody);
+    public List<FoodModel> getFoodModelsByFilter(@RequestBody FoodFilterBody foodFilterBody,
+                                                 @RequestParam(value = "offset", required=false) Long offset
+    ) throws ExecutionException, InterruptedException {
+        return foodService.getFilteredFoodModels(foodFilterBody, Optional.ofNullable(offset).orElse(0L));
     }
 
     @GetMapping("/getFoodModelById")

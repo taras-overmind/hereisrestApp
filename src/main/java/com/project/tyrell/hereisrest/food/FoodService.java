@@ -34,10 +34,14 @@ public class FoodService {
 
 
     public List<FoodModel> getFilteredFoodModels(
-            FoodFilterBody foodFilterBody) throws ExecutionException, InterruptedException {
+            FoodFilterBody foodFilterBody,
+            long offset
+    ) throws ExecutionException, InterruptedException {
         return getFoodModelEntities().stream()
                 .filter(x -> x.matchesFilter(x, foodFilterBody))
                 .sorted(Comparator.comparingInt(o -> -o.getRelevancyRating(o, foodFilterBody)))
+                .skip(offset * 10)
+                .limit(10)
                 .toList();
     }
 

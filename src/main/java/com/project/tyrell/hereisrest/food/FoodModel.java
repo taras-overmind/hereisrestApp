@@ -11,10 +11,14 @@ import com.project.tyrell.hereisrest.food.FoodModelClasses.FoodType;
 import com.project.tyrell.hereisrest.food.FoodModelClasses.PlaceType;
 import com.project.tyrell.hereisrest.shared.RootModel;
 import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
+@EqualsAndHashCode(callSuper = true)
 @AllArgsConstructor
 @NoArgsConstructor
+@Data
 public final class FoodModel extends RootModel {
 
     String menu; //optional
@@ -25,7 +29,7 @@ public final class FoodModel extends RootModel {
 
     List<FoodType> foodTypes = new ArrayList<>();
 
-    List<AdditionalService> additionalServices = new ArrayList<>();
+    List<AdditionalService> services = new ArrayList<>();
 
     boolean alcohol;
 
@@ -82,10 +86,10 @@ public final class FoodModel extends RootModel {
         }
 
 
-        if (foodFilterBody.additionalServices != null) {
-            if (foodModel.additionalServices != null) {
-                Set<AdditionalService> servicesIntersection = new HashSet<>(foodFilterBody.additionalServices);
-                servicesIntersection.retainAll(foodModel.additionalServices);
+        if (foodFilterBody.services != null) {
+            if (foodModel.services != null) {
+                Set<AdditionalService> servicesIntersection = new HashSet<>(foodFilterBody.services);
+                servicesIntersection.retainAll(foodModel.services);
                 if (!servicesIntersection.isEmpty()) {
                     rating += 10;
                     if (servicesIntersection.size() > 1) {

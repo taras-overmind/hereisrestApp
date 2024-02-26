@@ -18,11 +18,11 @@ public class SurveyService {
 
 
     /* Agenda
-    * 1. Transfer admin panel to backend
-    * 2. Rework Survey service(each model called separately)
-    * 3. Test coverage
-    * 4. More model types
-    * 5. Update sorting algorithms
+     * 1. Transfer admin panel to backend
+     * 2. Rework Survey service(each model called separately)
+     * 3. Test coverage
+     * 4. More model types
+     * 5. Update sorting algorithms
      */
 
     @Autowired
@@ -34,9 +34,11 @@ public class SurveyService {
 
     public SurveyResponse getSurveyResult(SurveyRequest surveyRequest) throws ExecutionException, InterruptedException {
         SurveyResponse surveyResponse = new SurveyResponse();
-        surveyResponse.foodModels = foodService.getFilteredFoodModels(surveyRequest).stream().limit(5).toList();
-        surveyResponse.museumModels = museumService.getFilteredMuseumPlaces(new MuseumFilterBody(surveyRequest)).stream().limit(5).toList();
-        surveyResponse.parkModels = parkService.getFilteredParkPlaces(new ParkFilterBody(surveyRequest)).stream().limit(5).toList();
+        surveyResponse.foodModels = foodService.getFilteredFoodModels(surveyRequest, 0).stream().limit(5).toList();
+        surveyResponse.museumModels =
+                museumService.getFilteredMuseumPlaces(new MuseumFilterBody(surveyRequest), 0).stream().limit(5).toList();
+        surveyResponse.parkModels =
+                parkService.getFilteredParkPlaces(new ParkFilterBody(surveyRequest), 0).stream().limit(5).toList();
 
         return surveyResponse;
 

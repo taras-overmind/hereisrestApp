@@ -4,12 +4,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.ExecutionException;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:5173", maxAge = 3600)
 public class MuseumController {
     private final MuseumService museumService;
+
     @Autowired
     public MuseumController(MuseumService museumService) {
         this.museumService = museumService;
@@ -19,14 +21,19 @@ public class MuseumController {
     public List<MuseumModel> getAllMuseumModels() throws ExecutionException, InterruptedException {
         return museumService.getMuseumPlaceEntities();
     }
+
     @PostMapping("/createMuseumModel")
-    public String createMuseumModel(@RequestBody MuseumModel museumModel ) throws ExecutionException, InterruptedException {
+    public String createMuseumModel(@RequestBody MuseumModel museumModel) throws ExecutionException, InterruptedException {
         return museumService.createMuseumModel(museumModel);
     }
+
     @PostMapping("/getFilteredMuseumModels")
-    public List<MuseumModel> getMuseumModelsByFilter(@RequestBody MuseumFilterBody museumFilterBody) throws ExecutionException, InterruptedException {
-        return museumService.getFilteredMuseumPlaces(museumFilterBody);
+    public List<MuseumModel> getMuseumModelsByFilter(@RequestBody MuseumFilterBody museumFilterBody,
+                                                     @RequestParam(value = "offset", required = false) Long offset)
+            throws ExecutionException, InterruptedException {
+        return museumService.getFilteredMuseumPlaces(museumFilterBody, Optional.ofNullable(offset).orElse(0L));
     }
+
     @GetMapping("/getMuseumModelById")
     public MuseumModel getMuseumModelById(@RequestParam String id) throws ExecutionException, InterruptedException {
         return museumService.getMuseumModelById(id);

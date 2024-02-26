@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.ExecutionException;
 
 @RestController
@@ -22,8 +23,10 @@ public class ParkController {
     }
 
     @PostMapping("/getFilteredParkModels")
-    public List<ParkModel> getParkModelsByFilter(@RequestBody ParkFilterBody parkFilterBody) throws ExecutionException, InterruptedException {
-        return parkService.getFilteredParkPlaces(parkFilterBody);
+    public List<ParkModel> getParkModelsByFilter(@RequestBody ParkFilterBody parkFilterBody,
+                                                 @RequestParam(value = "offset", required=false) Long offset)
+            throws ExecutionException, InterruptedException {
+        return parkService.getFilteredParkPlaces(parkFilterBody, Optional.ofNullable(offset).orElse(0L));
     }
 
     @PostMapping("/createParkModel")

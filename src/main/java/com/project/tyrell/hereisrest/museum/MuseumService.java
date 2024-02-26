@@ -24,10 +24,14 @@ public class MuseumService {
     }
 
     public List<MuseumModel> getFilteredMuseumPlaces(
-            MuseumFilterBody museumFilterBody) throws ExecutionException, InterruptedException {
+            MuseumFilterBody museumFilterBody,
+            long offset)
+            throws ExecutionException, InterruptedException {
 
         return getMuseumPlaceEntities().stream()
                 .filter(m -> m.matchesFilter(m, museumFilterBody))
+                .skip(offset * 10)
+                .limit(10)
                 .toList();
     }
 

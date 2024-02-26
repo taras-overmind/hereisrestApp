@@ -36,9 +36,13 @@ public class ParkService {
     }
 
     public List<ParkModel> getFilteredParkPlaces(
-            ParkFilterBody parkFilterBody) throws ExecutionException, InterruptedException {
+            ParkFilterBody parkFilterBody,
+            long offset)
+            throws ExecutionException, InterruptedException {
         return getParkModelEntities().stream()
                 .filter(p -> p.matchesFilter(p, parkFilterBody))
+                .skip(offset * 10)
+                .limit(10)
                 .toList();
 
     }

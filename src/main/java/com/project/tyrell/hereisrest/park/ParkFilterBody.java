@@ -3,10 +3,14 @@ package com.project.tyrell.hereisrest.park;
 import com.project.tyrell.hereisrest.shared.RootFilterBody;
 import com.project.tyrell.hereisrest.survey.SurveyRequest;
 import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
+@EqualsAndHashCode(callSuper = true)
 @AllArgsConstructor
 @NoArgsConstructor
+@Data
 public class ParkFilterBody extends RootFilterBody {
     boolean playground;
     boolean picnic;
