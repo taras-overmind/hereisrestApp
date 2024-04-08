@@ -23,5 +23,4 @@ public class FoodFilterBody extends RootFilterBody {
     List<AdditionalService> services;
     boolean alcohol;
     boolean vip;
-
 }

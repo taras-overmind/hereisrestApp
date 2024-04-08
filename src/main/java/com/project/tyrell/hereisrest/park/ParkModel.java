@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
+
 @EqualsAndHashCode(callSuper = true)
 @AllArgsConstructor
 @NoArgsConstructor
@@ -24,5 +25,26 @@ public class ParkModel extends RootModel {
                 && (!filter.hiking || model.hiking)
                 && (!filter.sport || model.sport)
                 && (!filter.cycling || model.cycling);
+    }
+
+    public int getRelevancyRating(ParkModel foodModel, ParkFilterBody foodFilterBody) {
+        int rating = 0;
+        if (foodModel.playground == foodFilterBody.playground) {
+            rating += 10;
+        }
+        if (foodModel.picnic == foodFilterBody.picnic) {
+            rating += 10;
+        }
+        if (foodModel.hiking == foodFilterBody.hiking) {
+            rating += 10;
+        }
+        if (foodModel.sport == foodFilterBody.sport) {
+            rating += 10;
+        }
+        if (foodModel.cycling == foodFilterBody.cycling) {
+            rating += 10;
+        }
+
+        return rating;
     }
 }

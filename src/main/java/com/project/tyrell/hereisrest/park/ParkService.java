@@ -4,6 +4,7 @@ import com.project.tyrell.hereisrest.firestore.FirestoreDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
@@ -40,7 +41,7 @@ public class ParkService {
             long offset)
             throws ExecutionException, InterruptedException {
         return getParkModelEntities().stream()
-                .filter(p -> p.matchesFilter(p, parkFilterBody))
+                .sorted(Comparator.comparingInt(o -> -o.getRelevancyRating(o, parkFilterBody)))
                 .skip(offset * 10)
                 .limit(10)
                 .toList();

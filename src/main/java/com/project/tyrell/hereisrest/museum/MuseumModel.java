@@ -6,6 +6,8 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
+import java.util.Objects;
+
 @EqualsAndHashCode(callSuper = true)
 @AllArgsConstructor
 @NoArgsConstructor
@@ -17,6 +19,14 @@ public class MuseumModel extends RootModel {
     public boolean matchesFilter(MuseumModel museumModelEntity, MuseumFilterBody filter) {
         return super.matchesFilter(museumModelEntity, filter)
                 && (filter.thematic == museumModelEntity.thematic);
+    }
+
+    public int getRelevancyRating(MuseumModel museumModelEntity, MuseumFilterBody filter) {
+        int rating = 0;
+        if (Objects.equals(museumModelEntity.thematic, filter.thematic)) {
+            rating += 10;
+        }
+        return rating;
     }
 }
 

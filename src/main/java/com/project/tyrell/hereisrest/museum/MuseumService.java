@@ -4,6 +4,7 @@ import com.project.tyrell.hereisrest.firestore.FirestoreDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
@@ -29,7 +30,7 @@ public class MuseumService {
             throws ExecutionException, InterruptedException {
 
         return getMuseumPlaceEntities().stream()
-                .filter(m -> m.matchesFilter(m, museumFilterBody))
+                .sorted(Comparator.comparingInt(o -> -o.getRelevancyRating(o, museumFilterBody)))
                 .skip(offset * 10)
                 .limit(10)
                 .toList();
