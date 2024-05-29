@@ -1,6 +1,7 @@
 package com.project.tyrell.hereisrest.park;
 
 import com.project.tyrell.hereisrest.firestore.FirestoreDAO;
+import com.project.tyrell.hereisrest.museum.MuseumModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,15 +22,7 @@ public class ParkService {
     private static final String PARK_COLLECTION_NAME = "parkplace";
 
     public List<ParkModel> getParkModelEntities() throws ExecutionException, InterruptedException {
-//        ApiFuture<QuerySnapshot> future = firestore.collection(parkModelCollection).get();
-//        List<QueryDocumentSnapshot> documents = future.get().getDocuments();
-//        List<ParkModel> result = new ArrayList<>();
-//        for (QueryDocumentSnapshot document : documents) {
-//            result.add(document.toObject(ParkModel.class));
-//            result.get(result.size() - 1).id = document.getId();
-//        }
-//        return result;
-        return firestoreDAO.getEntities(PARK_COLLECTION_NAME, ParkModel.class);
+        return firestoreDAO.getEntities(PARK_COLLECTION_NAME, ParkModel.class, "Kyiv");
     }
 
     public String createParkModel(ParkModel parkModel) throws ExecutionException, InterruptedException {
@@ -48,9 +41,17 @@ public class ParkService {
 
     }
 
-
     public ParkModel getParkModelById(
             String id) throws ExecutionException, InterruptedException {
         return firestoreDAO.getEntityById(PARK_COLLECTION_NAME, ParkModel.class, id);
+    }
+
+    public String updateMuseumModel(final String id, final MuseumModel museumModel) throws ExecutionException, InterruptedException {
+        return firestoreDAO.updateEntity(PARK_COLLECTION_NAME, id, museumModel);
+    }
+
+    public void deleteMuseumModel(final String id) throws ExecutionException,
+            InterruptedException {
+        firestoreDAO.deleteEntity(PARK_COLLECTION_NAME, id);
     }
 }

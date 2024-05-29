@@ -21,7 +21,7 @@ public class MuseumService {
     private static final String MUSEUM_COLLECTION_NAME = "museumplace";
 
     public List<MuseumModel> getMuseumPlaceEntities() throws ExecutionException, InterruptedException {
-        return firestoreDAO.getEntities(MUSEUM_COLLECTION_NAME, MuseumModel.class);
+        return firestoreDAO.getEntities(MUSEUM_COLLECTION_NAME, MuseumModel.class, "Kyiv");
     }
 
     public List<MuseumModel> getFilteredMuseumPlaces(
@@ -38,6 +38,15 @@ public class MuseumService {
 
     public String createMuseumModel(final MuseumModel museumModel) throws ExecutionException, InterruptedException {
         return firestoreDAO.createEntity(MUSEUM_COLLECTION_NAME, museumModel);
+    }
+
+    public String updateMuseumModel(final String id, final MuseumModel museumModel) throws ExecutionException, InterruptedException {
+        return firestoreDAO.updateEntity(MUSEUM_COLLECTION_NAME, id, museumModel);
+    }
+
+    public void deleteMuseumModel(final String id) throws ExecutionException,
+            InterruptedException {
+         firestoreDAO.deleteEntity(MUSEUM_COLLECTION_NAME, id);
     }
 
     public MuseumModel getMuseumModelById(final String id) throws ExecutionException, InterruptedException {

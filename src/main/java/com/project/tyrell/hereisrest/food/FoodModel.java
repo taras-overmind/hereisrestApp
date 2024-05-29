@@ -102,12 +102,7 @@ public final class FoodModel extends RootModel {
                 rating -= 20;
             }
         }
-//        if (foodFilterBody.isAlcohol()) {
-//            rating += foodModel.isAlcohol() ? 10 : -20;
-//        }
-//        if (foodFilterBody.isVip()) {
-//            rating += foodModel.isVip() ? 10 : -20;
-//        }
+
         rating += foodModel.subscriptionPlan.ordinal() * 20;
         //or rating = (int) (rating*foodModel.getSubscription_plan()); if subscription plans will work like multiplier
         return rating;

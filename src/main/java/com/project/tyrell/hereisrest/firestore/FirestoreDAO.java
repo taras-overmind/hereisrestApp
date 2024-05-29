@@ -16,10 +16,14 @@ public class FirestoreDAO {
 
     private final Firestore firestore = FirestoreClient.getFirestore();
 
+    private static final String CITY_FIELD = "city";
+
     public <T extends RootModel> List<T> getEntities(
             final String collectionName,
-            @Nonnull Class<T> valueType) throws ExecutionException, InterruptedException {
-        ApiFuture<QuerySnapshot> future = firestore.collection(collectionName).get();
+            @Nonnull Class<T> valueType,
+            final String city) throws ExecutionException, InterruptedException {
+        ApiFuture<QuerySnapshot> future = firestore.collection(collectionName)
+                .whereEqualTo(CITY_FIELD, city).get();
         List<QueryDocumentSnapshot> documents = future.get().getDocuments();
         List<T> result = new ArrayList<>();
         for (QueryDocumentSnapshot document : documents) {
@@ -64,6 +68,18 @@ public class FirestoreDAO {
     public String createEntity(final String collectionName, RootModel model) throws ExecutionException, InterruptedException {
         ApiFuture<WriteResult> collectionsApiFuture = firestore.collection(collectionName).document().set(model);
         return collectionsApiFuture.get().getUpdateTime().toString();
+    }
+
+    public String updateEntity(final String collectionName, final String id, RootModel model) throws ExecutionException, InterruptedException {
+        DocumentReference documentReference = firestore.collection(collectionName).document(id);
+        ApiFuture<WriteResult> future = documentReference.set(model, SetOptions.merge());
+        return future.get().getUpdateTime().toString();
+    }
+
+    public void deleteEntity(final String collectionName, final String id) throws ExecutionException, InterruptedException {
+        DocumentReference documentReference = firestore.collection(collectionName).document(id);
+        ApiFuture<WriteResult> future = documentReference.delete();
+        future.get();
     }
 
 }
