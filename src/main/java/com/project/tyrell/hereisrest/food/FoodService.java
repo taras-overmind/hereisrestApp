@@ -4,7 +4,7 @@ import java.util.Comparator;
 
 import com.project.tyrell.hereisrest.firestore.FirestoreDAO;
 import com.project.tyrell.hereisrest.shared.ModelDistanceBean;
-import com.project.tyrell.hereisrest.shared.RootModelService;
+import com.project.tyrell.hereisrest.root.RootModelService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,7 +41,7 @@ public class FoodService {
             final Double latitude,
             final Double longitude
     ) throws ExecutionException, InterruptedException {
-        logger.info("Filtering food models with filter body: {}, offset: {}, latitude: {}, longitude: {}", foodFilterBody, offset, latitude, longitude);
+        logger.info("Fetching food models with filter body: {}, offset: {}, latitude: {}, longitude: {}", foodFilterBody, offset, latitude, longitude);
         return rootModelService.sortByDistance(latitude, longitude,
                         getFoodModelEntities().stream()
                                 .filter(x -> x.matchesFilter(x, foodFilterBody))

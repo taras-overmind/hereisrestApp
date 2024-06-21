@@ -3,7 +3,7 @@ package com.project.tyrell.hereisrest.firestore;
 import com.google.api.core.ApiFuture;
 import com.google.cloud.firestore.*;
 import com.google.firebase.cloud.FirestoreClient;
-import com.project.tyrell.hereisrest.shared.RootModel;
+import com.project.tyrell.hereisrest.root.RootModel;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Nonnull;

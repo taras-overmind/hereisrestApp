@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.concurrent.ExecutionException;
 
 @RestController
+@RequestMapping("/survey")
 @CrossOrigin(origins = "http://localhost:5173", maxAge = 3600)
 public class SurveyController {
 

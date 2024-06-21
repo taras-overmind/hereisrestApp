@@ -1,42 +1,46 @@
 package com.project.tyrell.hereisrest.security;
 
+import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.security.core.Authentication;
 
 @RestController
+@RequestMapping("/auth")
 public class AuthenticationController {
+
+    @Autowired
+    private JwtUtil jwtTokenUtil;
+
+    @Autowired
+    private CustomUserDetailsService customUserDetailsService;
 
     @Autowired
     private AuthenticationManager authenticationManager;
 
-    @Autowired
-    private JwtUtil jwtUtil;
+    @PostMapping("/login")
+    public ResponseEntity<?> authenticate(@RequestBody AuthenticationRequest authRequest) {
+        Authentication authentication = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(authRequest.getUsername(), authRequest.getPassword()));
 
-    @Autowired
-    private UserDetailsService userDetailsService;
+        if (customUserDetailsService.validateAuthenticationRequest(authRequest)) {
+            String token = jwtTokenUtil.generateToken(authentication);
+            return ResponseEntity.ok(new AuthResponse(token));
+        } else {
+            return ResponseEntity.status(401).body("Invalid username or password");
+        }
+    }
 
-    private static final String STATIC_USERNAME = "admin";
-    private static final String STATIC_PASSWORD = "password";
+    @Data
+    static class AuthResponse {
+        private String token;
 
-    @PostMapping("/authenticate")
-    public String createAuthenticationToken(@RequestBody AuthenticationRequestBean authenticationRequest) throws Exception {
-
-        if (!STATIC_USERNAME.equals(authenticationRequest.getUsername()) ||
-                !STATIC_PASSWORD.equals(authenticationRequest.getPassword())) {
-            throw new Exception("Incorrect username or password");
+        public AuthResponse(String token) {
+            this.token = token;
         }
 
-        authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(authenticationRequest.getUsername(), authenticationRequest.getPassword())
-        );
-
-        final UserDetails userDetails = userDetailsService.loadUserByUsername(authenticationRequest.getUsername());
-        return jwtUtil.generateToken(userDetails.getUsername());
     }
 }
-
-

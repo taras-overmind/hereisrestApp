@@ -1,5 +1,7 @@
-package com.project.tyrell.hereisrest.shared;
+package com.project.tyrell.hereisrest.root;
 
+import com.project.tyrell.hereisrest.shared.ModelDistanceBean;
+import com.project.tyrell.hereisrest.shared.Utils;
 import org.springframework.stereotype.Service;
 
 import java.util.Comparator;

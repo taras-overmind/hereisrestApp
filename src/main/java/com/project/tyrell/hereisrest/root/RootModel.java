@@ -1,11 +1,10 @@
-package com.project.tyrell.hereisrest.shared;
+package com.project.tyrell.hereisrest.root;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 
-import com.project.tyrell.hereisrest.shared.RootModelClasses.HoursModel;
-import com.project.tyrell.hereisrest.shared.RootModelClasses.SubscriptionPlan;
+import com.project.tyrell.hereisrest.root.RootModelClasses.HoursBean;
+import com.project.tyrell.hereisrest.root.RootModelClasses.SubscriptionPlan;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
@@ -25,7 +24,7 @@ public abstract class RootModel {
     public boolean wc;
     public boolean finePlaced;
     public boolean handicapAccessibility;
-    public List<HoursModel> hours = new ArrayList<>();
+    public List<HoursBean> hours = new ArrayList<>();
     public List<String> images = new ArrayList<>();
     public String location;
     public String longitude;

@@ -3,8 +3,8 @@ package com.project.tyrell.hereisrest.security;
 import lombok.Data;
 
 @Data
-public class AuthenticationRequestBean {
-
+public class AuthenticationRequest {
     private String username;
     private String password;
+
 }

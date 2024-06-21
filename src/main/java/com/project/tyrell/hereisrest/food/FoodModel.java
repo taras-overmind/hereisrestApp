@@ -9,7 +9,7 @@ import com.project.tyrell.hereisrest.food.FoodModelClasses.AdditionalService;
 import com.project.tyrell.hereisrest.food.FoodModelClasses.FoodCountry;
 import com.project.tyrell.hereisrest.food.FoodModelClasses.FoodType;
 import com.project.tyrell.hereisrest.food.FoodModelClasses.PlaceType;
-import com.project.tyrell.hereisrest.shared.RootModel;
+import com.project.tyrell.hereisrest.root.RootModel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;

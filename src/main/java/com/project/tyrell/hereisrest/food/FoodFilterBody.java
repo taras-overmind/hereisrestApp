@@ -4,11 +4,8 @@ import com.project.tyrell.hereisrest.food.FoodModelClasses.AdditionalService;
 import com.project.tyrell.hereisrest.food.FoodModelClasses.FoodCountry;
 import com.project.tyrell.hereisrest.food.FoodModelClasses.FoodType;
 import com.project.tyrell.hereisrest.food.FoodModelClasses.PlaceType;
-import com.project.tyrell.hereisrest.shared.RootFilterBody;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import com.project.tyrell.hereisrest.root.RootFilterBody;
+import lombok.*;
 
 import java.util.List;
 
@@ -16,6 +13,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
+@ToString(callSuper = true)
 public class FoodFilterBody extends RootFilterBody {
     List<PlaceType> placeTypes;
     List<FoodCountry> foodCountries;

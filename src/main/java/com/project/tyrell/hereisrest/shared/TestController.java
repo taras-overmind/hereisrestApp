@@ -1,5 +1,6 @@
 package com.project.tyrell.hereisrest.shared;
 
+import io.swagger.v3.oas.annotations.Hidden;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -7,6 +8,7 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 @RestController
+@Hidden
 public class TestController {
 
     @Autowired

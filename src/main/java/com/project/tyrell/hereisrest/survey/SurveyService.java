@@ -16,15 +16,6 @@ public class SurveyService {
     private final ParkService parkService;
     private final MuseumService museumService;
 
-
-    /* Agenda
-     * 1. Transfer admin panel to backend
-     * 2. Rework Survey service(each model called separately)
-     * 3. Test coverage
-     * 4. More model types
-     * 5. Update sorting algorithms
-     */
-
     @Autowired
     public SurveyService(FoodService foodService, ParkService parkService, MuseumService museumService) {
         this.foodService = foodService;

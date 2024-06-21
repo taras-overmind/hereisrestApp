@@ -1,13 +1,15 @@
-package com.project.tyrell.hereisrest.shared;
+package com.project.tyrell.hereisrest.root;
 
 import com.project.tyrell.hereisrest.survey.SurveyRequest;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@ToString
 public class RootFilterBody {
     public boolean parking;
     public boolean finePlaced;

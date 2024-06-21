@@ -1,5 +1,4 @@
 package com.project.tyrell.hereisrest.security;
-
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -12,53 +11,54 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
+import io.jsonwebtoken.ExpiredJwtException;
 
 import java.io.IOException;
-import java.util.logging.Logger;
 
 @Component
 public class JwtRequestFilter extends OncePerRequestFilter {
-
-    private static final Logger logger = Logger.getLogger(JwtRequestFilter.class.getName());
 
     @Autowired
     private UserDetailsService userDetailsService;
 
     @Autowired
-    private JwtUtil jwtUtil;
+    private JwtUtil jwtTokenUtil;
 
     @Override
-    protected void doFilterInternal(final HttpServletRequest request, final HttpServletResponse response, final FilterChain chain)
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
             throws ServletException, IOException {
 
-        final String authorizationHeader = request.getHeader("Authorization");
+        final String requestTokenHeader = request.getHeader("Authorization");
 
         String username = null;
-        String jwt = null;
+        String jwtToken = null;
 
-        try {
-            if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
-                jwt = authorizationHeader.substring(7);
-                username = jwtUtil.extractUsername(jwt);
+        if (requestTokenHeader != null && requestTokenHeader.startsWith("Bearer ")) {
+            jwtToken = requestTokenHeader.substring(7);
+            try {
+                username = jwtTokenUtil.getUsernameFromToken(jwtToken);
+            } catch (IllegalArgumentException e) {
+                logger.warn("Unable to get JWT Token");
+            } catch (ExpiredJwtException e) {
+                logger.warn("JWT Token has expired");
             }
-
-            if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-
-                UserDetails userDetails = this.userDetailsService.loadUserByUsername(username);
-
-                if (jwtUtil.validateToken(jwt, userDetails.getUsername())) {
-
-                    UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken =
-                            new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
-                    usernamePasswordAuthenticationToken
-                            .setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-                    SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
-                }
-            }
-        } catch (Exception e) {
-            logger.severe("JWT Token processing failed: " + e.getMessage());
+        } else {
+            logger.debug("JWT Token does not begin with Bearer String");
         }
 
+        if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+
+            UserDetails userDetails = this.userDetailsService.loadUserByUsername(username);
+
+            if (jwtTokenUtil.validateToken(jwtToken)) {
+
+                UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(
+                        userDetails, null, userDetails.getAuthorities());
+                usernamePasswordAuthenticationToken
+                        .setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+                SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
+            }
+        }
         chain.doFilter(request, response);
     }
 }

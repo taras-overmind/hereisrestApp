@@ -1,6 +1,6 @@
 package com.project.tyrell.hereisrest.park;
 
-import com.project.tyrell.hereisrest.shared.RootModel;
+import com.project.tyrell.hereisrest.root.RootModel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;

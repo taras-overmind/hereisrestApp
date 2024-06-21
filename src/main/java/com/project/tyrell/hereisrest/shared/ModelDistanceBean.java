@@ -1,5 +1,7 @@
 package com.project.tyrell.hereisrest.shared;
 
+import com.project.tyrell.hereisrest.root.RootModel;
+
 public class ModelDistanceBean
 {
     public RootModel model;
